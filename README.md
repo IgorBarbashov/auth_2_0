@@ -1,2 +1,2 @@
 ### Level 1 
-- React, TS, Context, LocalStorage, 
+- React, TS, Context, LocalStorage, Appwrite
