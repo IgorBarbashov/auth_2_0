@@ -62,7 +62,7 @@ export const AuthProvider: FC<PropsWithChildren> = ({children}) => {
 
     return (
         <AuthContext.Provider value={contextData}>
-            {isLoading ? <p>'Loading...'</p> : children}
+            {isLoading ? <p>Loading...</p> : children}
         </AuthContext.Provider>
     );
 };

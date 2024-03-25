@@ -14,10 +14,10 @@ export const LoginForm = () => {
 
     const {authUser} = useAuth();
 
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        // request to server
+        await authUser(email, password, formMode);
 
         setEmail('');
         setPassword('');
