@@ -4,7 +4,7 @@ import {account} from "../appwrite.ts";
 import {FORM_MODE} from "../LoginForm/LoginForm.tsx";
 import {IAuthContext, IUser} from './auth.types.ts';
 
-const AuthContext = createContext<IAuthContext>({
+export const AuthContext = createContext<IAuthContext>({
     user: null,
     authUser: async () => {
     },

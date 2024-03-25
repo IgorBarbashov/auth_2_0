@@ -1,5 +1,6 @@
 import {useState, FormEvent} from 'react';
 import styles from './LoginForm.module.css';
+import {useAuth} from "../providers/useAuth.ts";
 
 export enum FORM_MODE {
     REGISTER = 'register',
@@ -10,6 +11,8 @@ export const LoginForm = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [formMode, setFormMode] = useState(FORM_MODE.LOGIN);
+
+    const {authUser} = useAuth();
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
