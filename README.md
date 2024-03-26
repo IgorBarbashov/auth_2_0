@@ -1,5 +1,5 @@
 ### Level 1
-- Frontend: React, TS, Context
+- Frontend: React, TS, Vite, Context
 - Backend: Appwrite
 
 ### Level 2
