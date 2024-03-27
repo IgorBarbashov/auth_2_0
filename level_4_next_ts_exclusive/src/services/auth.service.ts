@@ -1,6 +1,7 @@
 import {IFormData, IUser} from '@/types/types';
 import {axiosClassic, instance} from "@/api/axios";
 import {removeAccessTokenFromStorage, saveAccessTokenToStorage} from "@/services/auth.helper";
+import {API_URL} from "@/constants";
 
 interface IAuthResponse {
     accessToken: string;
@@ -39,17 +40,21 @@ class AuthService {
     }
 
     async getNewTokensByRefresh(refreshToken: string) {
-        const response = await axiosClassic.post<IAuthResponse>(
-            '/auth/login/access-token',
-            {},
+        const response = await fetch(
+            `${API_URL}/auth/login/access-token`,
             {
+                method: 'POST',
                 headers: {
-                    Cookie: `refreshToken=${refreshToken}`,
+                    cookie: `refreshToken=${refreshToken}`,
                 },
             }
-        )
+        );
 
-        return response.data;
+        if (response.status !== 200) {
+            throw new Error('Token refreshing error');
+        }
+
+        return await response.json();
     }
 
     async logout() {
