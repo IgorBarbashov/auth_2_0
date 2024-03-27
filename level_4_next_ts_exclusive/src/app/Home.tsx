@@ -1,30 +1,27 @@
 'use client'
 
-import {useMutation, useQuery} from "@tanstack/react-query";
+import {useMutation} from "@tanstack/react-query";
 import {useRouter} from "next/navigation";
 import authService from "@/services/auth.service";
-import {CardItem} from "@/app/CardItem";
+import {useProfile} from "@/app/hooks/useProfile";
+import {PUBLIC_PAGES} from "@/config/pages/public.config";
 
 export const Home = () => {
     const {push} = useRouter();
 
-    const {data, isLoading} = useQuery({
-        queryKey: ['profile'],
-        queryFn: () => authService.profile(),
-        retry: 0
-    });
+    const {user} = useProfile();
 
     const {mutate: mutateLogout, isPending: isLogoutPending} = useMutation({
         mutationKey: ['logout'],
         mutationFn: () => authService.logout(),
         onSuccess: () => {
-            push('/login');
+            push(PUBLIC_PAGES.LOGIN);
         }
     });
 
     return (
         <main className='flex min-h-screen flex-col items-center justify-between p-24'>
-            {data?.data && (
+            {user && (
                 <div className='z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex'>
                     <div
                         className='fixed bottom-0 left-0 flex items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none text-4xl font-bold'>
@@ -44,15 +41,11 @@ export const Home = () => {
                 <h1 className='text-6xl font-bold'>МК "Авторизация"</h1>
             </div>
 
-            {isLoading ? (
-                <div>Loading...</div>
-            ) : data?.data ? (
-                <CardItem content={data.data.name} title={data.data.email} key={data.data.id}/>
-            ) : (
-                <CardItem
-                    content='Find in-depth information about Next.js features and API.'
-                    title='Login'
-                />
+            {user && (
+                <div>
+                    <h2 className='text-2xl font-bold'>Привет, {user.name}</h2>
+                    <p className='text-lg'>Ваш email: {user.email}</p>
+                </div>
             )}
         </main>
     );

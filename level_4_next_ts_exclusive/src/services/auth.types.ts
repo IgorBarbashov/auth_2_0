@@ -4,10 +4,10 @@ export enum UserRole {
 }
 
 export interface ITokenInside {
-	id: number
-	role: UserRole
-	iat: number
-	exp: number
+	id: number;
+	role: UserRole;
+	iat: number;
+	exp: number;
 }
 
-export type TProtectUserData = Omit<ITokenInside, 'iat' | 'exp'>
+export type TProtectUserData = Omit<ITokenInside, 'iat' | 'exp'>;
