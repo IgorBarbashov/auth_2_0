@@ -1,22 +1,20 @@
 ### Level 1
 - Frontend:
-  - React
-  - TS
-  - Vite
-  - Context
+  - Authorization: email/password, useState 
+  - React, TS, Vite, Context
 - Backend:
   - Appwrite
 
 ### Level 2
 - Frontend:
-  - React
-  - TS
-  - Next.js
-  - React-Query
-  - JWT
-  - LocalStorage
-  - Fetch
-  - React-Hook-Form
+  - Authorization: JWT, access token (local storage)
+  - React, TS, Next.js, React-Query, Fetch, React-Hook-Form
 - Backend:
-  - Nest.js
-  - Prisma ORM
+  - Nest.js, Prisma ORM
+
+### Level 3
+- Frontend:
+  - Authorization: JWT, access token (cookies, Bearer auth) + refresh (http-only cookies)
+  - React, TS, Next.js, React-Query, React-Hook-Form, Axios + interceptors
+- Backend:
+  - Nest.js, Prisma ORM
