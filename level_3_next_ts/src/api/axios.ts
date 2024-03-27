@@ -42,7 +42,10 @@ instance.interceptors.response.use(
                 await authService.getNewTokens();
                 return instance.request(originalRequest);
             } catch (error) {
-                if (errorCatch(error) === 'jwt expired') {
+                if (
+                    errorCatch(error) === 'jwt expired' ||
+                    errorCatch(error) === 'Refresh token not passed'
+                ) {
                     removeAccessTokenFromStorage();
                 }
             }

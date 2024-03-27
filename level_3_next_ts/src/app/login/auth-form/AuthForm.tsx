@@ -19,29 +19,27 @@ export function AuthForm({isLogin}: IAuthFormProps) {
 
     const {mutate: mutateLogin, isPending: isLoginPending} = useMutation({
         mutationKey: ['login'],
-        mutationFn: (data: IFormData) => authService.login(data),
-        onSuccess(data) {
-            localStorage.setItem('token', data.accessToken);
+        mutationFn: (data: IFormData) => authService.main('login', data),
+        onSuccess() {
             reset();
             router.push('/');
         },
-    })
+    });
 
     const {mutate: mutateRegister, isPending: isRegisterPending} = useMutation({
         mutationKey: ['register'],
-        mutationFn: (data: IFormData) => authService.register(data),
-        onSuccess(data) {
-            localStorage.setItem('token', data.accessToken);
+        mutationFn: (data: IFormData) => authService.main('register', data),
+        onSuccess() {
             reset();
             router.push('/');
         },
-    })
+    });
 
     const isPending = isLoginPending || isRegisterPending;
 
     const onSubmit: SubmitHandler<IFormData> = data => {
         isLogin ? mutateLogin(data) : mutateRegister(data);
-    }
+    };
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className='max-w-sm mx-auto'>
