@@ -6,6 +6,11 @@ interface IAuthResponse {
     user: IUser;
 }
 
+export enum EnumTokens {
+    'ACCESS_TOKEN' = 'accessToken',
+    'REFRESH_TOKEN' = 'refreshToken',
+}
+
 class AuthService {
     async login(data: IFormData): Promise<IAuthResponse> {
         const response = await fetch(`${API_URL}/auth/login`, {
