@@ -1,5 +1,6 @@
-import { API_URL } from '@/constants'
 import {IFormData, IUser} from '@/types/types';
+import {axiosClassic, instance} from "@/api/axios";
+import {removeAccessTokenFromStorage, saveAccessTokenToStorage} from "@/services/auth.helper";
 
 interface IAuthResponse {
     accessToken: string;
@@ -12,74 +13,45 @@ export enum EnumTokens {
 }
 
 class AuthService {
-    async login(data: IFormData): Promise<IAuthResponse> {
-        const response = await fetch(`${API_URL}/auth/login`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        });
+    async main(type: 'login' | 'register', data: IFormData) {
+        const response = await axiosClassic.post<IAuthResponse>(
+            `/auth/${type}`,
+            data
+        );
 
-        if (!response.ok) {
-            throw new Error('Ошибка при выполнении запроса');
+        if (response.data.accessToken) {
+            saveAccessTokenToStorage(response.data.accessToken);
         }
 
-        const responseData: IAuthResponse = await response.json();
-        return responseData;
+        return response;
     }
 
-    async register(data: IFormData): Promise<IAuthResponse> {
-        const response = await fetch(`${API_URL}/auth/register`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        });
+    async getNewTokens() {
+        const response = await axiosClassic.post<IAuthResponse>(
+            '/auth/login/access-token'
+        );
 
-        if (!response.ok) {
-            throw new Error('Ошибка при выполнении запроса')
+        if (response.data.accessToken) {
+            saveAccessTokenToStorage(response.data.accessToken);
         }
 
-        const responseData: IAuthResponse = await response.json();
-        return responseData;
+        return response;
     }
 
-    async profile(): Promise<IUser> {
-        const token = localStorage.getItem('token');
+    async logout() {
+        const response = await axiosClassic.post<boolean>(
+            '/auth/logout'
+        );
 
-        const response = await fetch(`${API_URL}/auth/profile`, {
-            method: 'GET',
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        })
-
-        if (!response.ok) {
-            throw new Error('Ошибка при выполнении запроса');
+        if (response.data) {
+            removeAccessTokenFromStorage();
         }
 
-        const responseData: IUser = await response.json();
-        return responseData;
+        return response;
     }
 
-    async users(): Promise<IUser[]> {
-        const token = localStorage.getItem('token');
-
-        const response = await fetch(`${API_URL}/auth/users`, {
-            method: 'GET',
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        })
-
-        if (!response.ok) {
-            throw new Error('Ошибка при выполнении запроса');
-        }
-
-        const responseData: IUser[] = await response.json();
-        return responseData;
+    async profile() {
+        return instance.get<IUser>('/auth/profile');
     }
 }
 

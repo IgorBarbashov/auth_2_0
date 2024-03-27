@@ -47,5 +47,7 @@ instance.interceptors.response.use(
                 }
             }
         }
+
+        throw error;
     }
 );
