@@ -11,6 +11,7 @@ export const Home = () => {
     const {data, isLoading} = useQuery({
         queryKey: ['profile'],
         queryFn: () => authService.profile(),
+        retry: 0
     });
 
     const {mutate: mutateLogout, isPending: isLogoutPending} = useMutation({

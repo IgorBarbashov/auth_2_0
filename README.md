@@ -15,6 +15,6 @@
 ### Level 3
 - Frontend:
   - Authorization: JWT, access token (cookies, Bearer auth) + refresh (http-only cookies)
-  - React, TS, Next.js, React-Query, React-Hook-Form, Axios + interceptors, js-cookie
+  - React, TS, Next.js + middleware, React-Query, React-Hook-Form, Axios + interceptors, js-cookie
 - Backend:
   - Nest.js, Prisma ORM
